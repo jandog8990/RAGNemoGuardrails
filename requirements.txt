@@ -1,0 +1,17 @@
+langchain==0.2.16
+langchain-community==0.2.17
+langchain-core==0.2.41
+langchain-openai==0.1.25
+langchain-text-splitters==0.2.4
+huggingface-hub==0.25.1
+nemoguardrails==0.10.0
+numpy==1.26.4
+openai==1.51.0
+pinecone-client==5.0.1
+pinecone-plugin-inference==1.1.0
+pinecone-plugin-interface==0.0.7
+
+# don't need this for prod
+datasets==3.0.1
+pandas==2.2.3
+
