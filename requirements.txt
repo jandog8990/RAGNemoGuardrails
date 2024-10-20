@@ -10,8 +10,6 @@ openai==1.51.0
 pinecone-client==5.0.1
 pinecone-plugin-inference==1.1.0
 pinecone-plugin-interface==0.0.7
-
-# don't need this for prod
 datasets==3.0.1
 pandas==2.2.3
-
+pymongo==4.10.1

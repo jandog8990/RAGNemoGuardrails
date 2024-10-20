@@ -2,6 +2,13 @@ import os
 from openai import OpenAI
 from pinecone import Pinecone
 from tqdm.auto import tqdm
+from nemoguardrails import LLMRails, RailsConfig
+import asyncio
+
+"""
+RAG Retrieve uses PineCone and NemoGuardrails to generate
+data by using textual information queried from PineCone db
+"""
 
 # get the env variables for openai and PC
 indexName = "nemo-guard-rag-test"
@@ -53,8 +60,8 @@ async def rag(query: str, contexts: list) -> str:
     Contexts:
     {context_str}
 
-    Query: {query}
-
+    Prompt: {query}
+     
     Answer: """
 
     # create the messages to send for system/user prompting
@@ -65,15 +72,37 @@ async def rag(query: str, contexts: list) -> str:
 
 
     # generate the answer using chat streaming
-    stream = client.chat.completions.create(
+    res = client.chat.completions.create(
         model=openai_model_id,
         messages=messages,
-        temperature=0.2,
+        temperature=0.0,
         max_tokens=100, 
-        stream=True
+        stream=False
     )
 
-    return stream
+    print("Response rag:")
+    print(res)
+    print("\n")
 
+    #return stream
+    return res['choices'][0]['text']
 
-    
+# create nemoguard rails using config 
+railsConfig = RailsConfig.from_path("./ragconfig")
+ragRails = LLMRails(config=railsConfig)
+
+# register context and rag actions
+ragRails.register_action(action=retrieve, name="retrieve")
+ragRails.register_action(action=rag, name="rag")
+
+# try out the rag agent
+async def sayHello():
+    res = await ragRails.generate_async(prompt="hello")
+    print(res)
+
+def askLlama():
+    res = ragRails.generate(prompt="tell me about llama 2")
+    print(res)
+
+#asyncio.run(askLlama())
+askLlama()
