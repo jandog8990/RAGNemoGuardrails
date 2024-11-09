@@ -6,7 +6,8 @@ This tests guardrails toxic and competitive rail guards implementations
 """
 guard = Guard().use_many(
     CompetitorCheck(["Apple", "Microsoft", "Google"], on_fail=OnFailAction.EXCEPTION),
-    ToxicLanguage(threshold=0.5, validation_method="sentence", on_fail=OnFailAction.EXCEPTION)
+    #ToxicLanguage(threshold=0.5, validation_method="sentence", on_fail=OnFailAction.EXCEPTION)
+    ToxicLanguage(threshold=0.5, validation_method="sentence", on_fail="fix")
 )
 
 res = guard.validate("""An apple a day keeps a doctor away.
