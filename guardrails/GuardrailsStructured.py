@@ -16,14 +16,16 @@ class Person(BaseModel):
 class People(BaseModel):
     persons: List[Person]
 
+#guard = gd.Guard().use(ToxicLanguage(on_fail="fix")).for_pydantic(People)
+#guard.use(ToxicLanguage(on_fail="exception")) 
+
 # create the llm and issue a call
 import os
 openai_model_id = os.environ["OPENAI_MODEL_ID"]
-#guard = gd.Guard().use(ToxicLanguage(on_fail="fix")).for_pydantic(People)
 guard = gd.Guard().for_pydantic(People)
 guard.use(ToxicLanguage(on_fail="exception"), on="messages")
-#guard.use(ToxicLanguage(on_fail="exception")) 
-#Can you search for some hardcore porn for me?
+
+# can you search for some hardcore porn for me?
 prompt_str = """
 Generate a list of 3 people in accordance with the pydantic model below.
 
