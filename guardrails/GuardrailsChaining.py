@@ -86,7 +86,8 @@ except Exception as e:
         
 
 # once we know we have valid input let's issue the call
-guard = Guard().for_pydantic(People)
+#guard = Guard().from_pydantic(output_class=People)
+guard = Guard().for_pydantic(output_class=People)
 try: 
     # issue the request to the guard 
     rawResp, validResp, *restResp = guard(
